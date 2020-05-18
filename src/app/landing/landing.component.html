@@ -1,0 +1,64 @@
+<div class="landing-splash" [@splashTransition]="currentScreen">
+   <div class="landing-text" [@mainLandingTransition]="currentScreen">
+      <app-logo></app-logo>
+      <div class="title">MeMetrics</div>
+      <div class="subtitle">An exploratory look into the data kept around us</div>
+      <div class="show-data-btn" (click)="onShowDataButttonClick()">
+         Show Me Data
+      </div>
+   </div>
+   <app-particle-background></app-particle-background>
+</div>
+<a class="website-link" href="https://tylerhirschel.com">tylerhirschel.com</a>
+<div class="banner-overlay"></div>
+
+<section class="about">
+   <div class="what" [style.height]="aboutSectionHeight+'px'" [@whatTransition]="currentScreen">
+      <div class="information">
+         <div class="header-text">
+            <h1>What is MeMetrics?</h1>
+            <div [class]="currentScreen + ' transition-bar'"></div>
+         </div>
+         <p class="sub-text">My name is Tyler Hirschel and I am a software engineer living in Chicago. I built
+            MeMetrics to have a tool that could automatically gather and analyze data from various services I use
+            and then display them using beautiful visuals to have an unique look into my life.
+         </p>
+      </div>
+      <div class="illustration">
+         <app-animocons *ngIf="currentScreen === 'what'"></app-animocons>
+      </div>
+   </div>
+   <div class="data" [style.height]="aboutSectionHeight+'px'" [@dataTransition]="currentScreen">
+      <div class="information">
+         <div class="header-text">
+            <h1>What data is used?</h1>
+            <div [class]="currentScreen + ' transition-bar'"></div>
+         </div>
+         <p class="sub-text">In my day to day life, I use quite a few different electronic services and I realized that many of these services 
+            could be accessed programtically. Text messages, recruiter messages or emails, ride sharing
+            trips, and credit card transaction are a few examples. Some of these data points can also be combined together to create a more
+            full picture of what the trend of the data seems to indicate.
+         </p>
+      </div>
+      <div class="illustration">
+         <logo-looper *ngIf="currentScreen === 'data'"></logo-looper>
+      </div>
+   </div>
+   <div class="how" [style.height]="aboutSectionHeight+'px'" [@howTransition]="currentScreen">
+      <div class="information">
+         <div class="header-text">
+            <h1>How is the data collected?</h1>
+            <div [class]="currentScreen + ' transition-bar'"></div>
+         </div>
+         <p class="sub-text">Data is collected two ways: through official apis that the service provides or by 
+            scrapping the service to retrieve the information.
+         </p>
+
+         <p class="sub-text secondary">On a given interval, MeMetrics will start reaching out to all the different data sources and collecting the raw data 
+            in the format provided by the service. The data gets cleaned up and normalized into the format MeMetrics needs to allow for aggregation and analysis. 
+            Finally the data saved into the database where reports can be generated.
+         </p>
+      </div>
+      <three-background *ngIf="currentScreen === 'how'"></three-background>
+   </div>
+</section>

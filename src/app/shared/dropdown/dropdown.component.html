@@ -1,0 +1,12 @@
+<div class="selected-item" (click)="toggleOpen()">
+   <span class="label">{{selectedLabel}}</span>
+   <span class="arrow"></span>
+</div>
+<ul class="items" [@dropdownAnimations]="isOpen">
+   <li class="item"
+       [class.selected]="selectedId === item.id"
+       (click)="onItemSelected(item)"
+       *ngFor="let item of items">
+      {{item.label}}
+   </li>
+</ul>

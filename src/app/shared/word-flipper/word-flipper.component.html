@@ -1,0 +1,10 @@
+<div class="text">
+   <p [@wordFlipperTransition]="state" [class.on]="state === 'on'">
+      <span class="word from">
+         <span class="letter from-letter" *ngFor="let letter of fromLetters">{{letter}}</span>
+      </span>
+      <span class="word to">
+         <span class="letter to-letter" *ngFor="let letter of toLetters">{{letter}}</span>
+      </span>
+   </p>
+</div>

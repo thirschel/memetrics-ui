@@ -1,0 +1,14 @@
+<div class="landing-area">
+   <div class="logo-container"
+        *ngIf="initialSize"
+        [ngStyle]="{'transform': 'translateY('+ tickCount * -100 + 'px)'}"
+        [class.animate]="shouldAnimate"
+        [@logoAnimation]>
+      <div class="logo-wrapper" *ngFor="let logo of logos; let idx = index"
+           [ngClass]="logo" [class.even]="idx % 2 === 0" [class.odd]="idx % 2 === 1"
+           [ngStyle]="{'animation-delay': (idx * .45) % (logos.length / 2) + 's'}"
+      >
+         <div class="logo"></div>
+      </div>
+   </div>
+</div>

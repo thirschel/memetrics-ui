@@ -1,0 +1,71 @@
+:host{
+   font-family: 'MeMetrics';
+   font-size: 170px;
+   height: 130px;
+   line-height: 130px;
+   display: inline-flex;
+   span{
+      user-select:none;
+   }
+   .first-m {
+      background: linear-gradient(-60deg, #fedd44, #fedd44, #fa709a, #FA83C7);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-flex;
+      z-index: 2;
+      -webkit-animation: flow 10s ease-in-out infinite;
+      animation: flow 10s ease-in-out infinite;
+   }
+   .second-m {
+      background: linear-gradient(-60deg, #FFCF71,  #716CDD, #2376DD,  #C5FF7E);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-flex;
+      margin-left: -211px;
+      z-index: 1;
+      -webkit-animation: flow 10s ease-in-out infinite;
+      animation: flow 10s ease-in-out infinite;
+   }
+   .third-m {
+      background: linear-gradient(-60deg, #FFCF71,  #716CDD, #2376DD,  #C5FF7E);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-flex;
+      margin-left: -270px;
+      z-index: 3;
+      -webkit-animation: flow 10s ease-in-out infinite;
+      animation: flow 10s ease-in-out infinite;
+   }
+   .piece-3 {
+      margin-left: -29px;
+   }
+   .piece-4 {
+      margin-left: -29px;
+   }
+   .piece-5 {
+      opacity: 0;
+   }
+   .piece-6 {
+      margin-left: -29px;
+   }
+}
+
+@keyframes flow {
+   0% {
+      background-position: 15% 50%;
+   }
+
+   50% {
+      background-position: 65% 50%;
+   }
+
+   100% {
+      background-position: 15% 50%;
+   }
+}

@@ -1,0 +1,204 @@
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=vsts&tabs=schema
+trigger:
+  branches:
+    include:
+    - refs/pull/*
+    - develop
+    - release
+
+stages:
+- stage: Build
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  variables:
+    - group: Infrastructure
+    - name: build_configuration
+      value: 'Release'
+    - name: api_image_name
+      value: 'memetrics-api'
+    - name: project_name
+      value: 'MeMetrics'
+  jobs:
+  - job: Build
+    steps:
+    - task: NodeTool@0
+      displayName: 'Use Node >=12.16.3'
+      inputs:
+        versionSpec: '>=10.3.0'
+
+    - task: Npm@1
+      displayName: 'npm ci (install)'
+      inputs:
+        command: custom
+        verbose: false
+        customCommand: ci
+
+    - task: Npm@1
+      displayName: 'npm run test-once'
+      inputs:
+        command: custom
+        verbose: false
+        customCommand: 'run test-once'
+
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage from $(System.DefaultWorkingDirectory)/**/cobertura-coverage.xml'
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/cobertura-coverage.xml'
+        reportDirectory: '$(System.DefaultWorkingDirectory)/**/cobertura'
+
+    - task: Npm@1
+      displayName: 'build'
+      inputs:
+        command: custom
+        verbose: false
+        customCommand: 'run build-prod'
+
+    # Validate and create dist artifact
+    - script: cp -r . $(Build.ArtifactStagingDirectory)/dist
+      displayName: 'create dist artifact'
+      workingDirectory: dist
+
+    # Validate and create Terraform artifact
+    - script: cp -r . $(Build.ArtifactStagingDirectory)/infrastructure
+      displayName: 'create terraform artifact'
+      workingDirectory: infrastructure
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+
+- stage: Deploy
+  pool:
+    vmImage: 'ubuntu-16.04'
+  variables:
+    - group: Infrastructure
+    - name: environment
+      value: 'dev'
+    - name: terraform_version
+      value: 0.12.24
+    - name: log_level
+      value: 'info'
+    - name: resource_group_name
+      value: memetrics-$(environment)
+    - name: terraform_backend_filename
+      value: $(environment)-ui-tf-state-file
+    - name: key_vault_name
+      value: mm$(environment)-keyvault
+    - name: storage_account_name
+      value: mm$(environment)ui
+    - name: cdn_name
+      value: memetrics-$(environment)-cdn
+    - name: cdn_endpoint_name
+      value: memetrics-$(environment)-endpoint
+    - name: apiUrl
+      value: 'https://memetrics-dev-api.azurewebsites.net'
+    - name: appInsightsInstrumentationKey
+      value: 'ee7d0555-ec8a-4d67-ac13-ff2f6a1d99b6'
+  jobs:
+    - deployment: deploy
+      displayName: Deploy
+      pool:
+        vmImage: 'Ubuntu-16.04'
+      # creates an environment if it doesn't exist
+      environment: $(environment)
+      strategy:
+        # default deployment strategy, more coming...
+        runOnce:
+          deploy:
+            steps:
+            - bash: |
+                echo 'Environment - $(environment)'
+                echo 'Terraform Version - $(terraform_version)'
+                echo 'Log Level - $(log_level)'
+                echo 'Resource group name - $(resource_group_name)'
+                echo 'Terraform backend filename - $(terraform_backend_filename)'
+                echo 'Storage account name - $(storage_account_name)'
+                echo 'Key vault name - $(key_vault_name)'
+              displayName: echo build number
+            
+            - task: FileTransform@2
+              displayName: 'replace appsettings.json variables'
+              inputs:
+                folderPath: '$(System.DefaultWorkingDirectory)/../drop/dist/assets'
+                xmlTransformationRules: 
+                jsonTargetFiles: 'appsettings.json'
+
+            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+              displayName: 'use terraform $(terraform_version)'
+              inputs:
+                terraformVersion: $(terraform_version)
+
+            - task: AzureKeyVault@1
+              displayName: 'download keyvault secrets'
+              inputs:
+                azureSubscription: 'Visual Studio Enterprise'
+                keyVaultName: '$(key_vault_name)'
+
+            - bash: 'terraform init -backend-config="storage_account_name=$(TerraformStorageAccountName)" -backend-config="container_name=$(TerraformContainerName)" -backend-config="access_key=$(TerraformStorageAccountKey)" -backend-config="key=$(terraform_backend_filename)"'
+              displayName: 'terraform init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/../drop/infrastructure'
+              env:
+                ARM_CLIENT_ID: $(DevopsClientId)
+                ARM_TENANT_ID: $(DevopsTenantId)
+                ARM_CLIENT_SECRET: $(DevopsClientSecret)
+                ARM_SUBSCRIPTION_ID: $(DevopsSubscriptionId)
+
+            - bash: 'terraform workspace select $(environment) || terraform workspace new $(environment)'
+              displayName: 'terraform workspace select $(environment)'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/../drop'
+              env:
+                TF_IN_AUTOMATION: 1
+
+            - bash: 'terraform plan -input=false -out=$(Build.BuildNumber).tfplan'
+              displayName: 'terraform plan'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/../drop/infrastructure'
+              env:
+                ARM_CLIENT_ID: $(DevopsClientId)
+                ARM_TENANT_ID: $(DevopsTenantId)
+                ARM_CLIENT_SECRET: $(DevopsClientSecret)
+                ARM_SUBSCRIPTION_ID: $(DevopsSubscriptionId)
+                TF_VAR_infrastructure_resource_group_name: $(resource_group_name)
+                TF_VAR_infrastructure_resource_group_location: 'East US'
+                TF_WORKSPACE: $(environment)
+                
+            - bash: 'terraform apply -input=false $(Build.BuildNumber).tfplan'
+              displayName: 'terraform apply'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/../drop/infrastructure'
+              env:
+                ARM_CLIENT_ID: $(DevopsClientId)
+                ARM_TENANT_ID: $(DevopsTenantId)
+                ARM_CLIENT_SECRET: $(DevopsClientSecret)
+                ARM_SUBSCRIPTION_ID: $(DevopsSubscriptionId)
+                TF_WORKSPACE: $(environment)
+                
+            # Linux images can only use bash script types
+            # Pipline variables need to passed in as arguments for some reason    
+            - task: AzureCLI@2
+              displayName: 'copy files to web container'
+              inputs:
+                azureSubscription: 'Visual Studio Enterprise'
+                workingDirectory: '$(System.DefaultWorkingDirectory)/../drop/dist/'
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  az storage blob delete-batch -s $2 --account-name $1
+                  az storage blob upload-batch --account-name $1 --destination $2 --source ./
+                arguments: $(storage_account_name) "$web"
+            
+            # Linux images can only use bash script types
+            # Pipline variables need to passed in as arguments for some reason  
+            - task: AzureCLI@2
+              displayName: 'purge cdn endpoint'
+              inputs:
+                azureSubscription: 'Visual Studio Enterprise'
+                workingDirectory: '$(System.DefaultWorkingDirectory)/../drop/dist/'
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  az cdn endpoint purge -n $1 -g $2 --profile-name $3 --content-paths '/*'
+                arguments: $(cdn_endpoint_name) $(resource_group_name) $(cdn_name)
+
+

@@ -1,0 +1,89 @@
+:host {
+   .landing-area {
+      height: 300px;
+      overflow: hidden;
+      position: relative;
+      &::after {
+         content: "";
+         position: absolute;
+         z-index: 1;
+         bottom: 0;
+         left: 0;
+         pointer-events: none;
+         background-image: linear-gradient(to bottom, rgba(245, 246, 250, 0.9) 0%, rgba(249, 250, 252, 0) 20%, rgba(255, 255, 255, 0) 50%, rgba(249, 250, 252, 0) 80%, rgba(245, 246, 250, 0.9) 100%);
+         width: 100%;
+         height: 100%;
+      }
+      .logo-container {
+         padding: 0 20px;
+         &.animate {
+            transition: .3s ease-in-out;
+         }
+         .logo-wrapper {
+            width: 50%;
+            height: 80px;
+            border-radius: 3px;
+            background: #FFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            transform: translatey(0px);
+            animation: float 4.5s ease-in-out infinite;
+            &.odd {
+               margin-left: 50%;
+            }
+            .logo {
+               width: 175px;
+               height: 50px;
+               background-size: contain;
+               background-repeat: no-repeat;
+            }
+            &.lyft {
+               .logo {
+                  background-image: url('../../../../assets/img/lyft-logo.png');
+               }
+            }
+            &.uber {
+               .logo {
+                  background-image: url('../../../../assets/img/uber-logo.png');
+               }
+            }
+            &.personal-capital {
+               .logo {
+                  background-image: url('../../../../assets/img/personal-capital-logo.png');
+               }
+            }
+            &.gmail {
+               .logo {
+                  background-image: url('../../../../assets/img/gmail-logo.png');
+               }
+            }
+            &.groupme {
+               .logo {
+                  background-image: url('../../../../assets/img/groupme-logo.png');
+               }
+            }
+            &.linkedin {
+               .logo {
+                  background-image: url('../../../../assets/img/linkedin-logo.png');
+               }
+            }
+         }
+      }
+   }
+}
+
+@keyframes float {
+   0% {
+      transform: translatey(0px);
+   }
+   50% {
+      transform: translatey(-8px);
+   }
+   100% {
+      transform: translatey(0px);
+   }
+}

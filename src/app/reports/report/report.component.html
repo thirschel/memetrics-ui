@@ -1,0 +1,26 @@
+<div class="report-selector" [@reportTransition] *ngIf="isOpen">
+   <div class="report"
+        *ngFor="let report of reports"
+        [ngClass]="{'selected':report.id === selectedReport.id}"
+        (click)="onReportChanged(report)">
+      <span>{{report.label}}</span>
+   </div>
+</div>
+<div class="header">
+   <div class="left">
+      <div class="back-btn" (click)="goBack()">
+         <div class="back-icon"></div>
+         <span>Go Back</span>
+      </div>
+      <word-flipper [word]="selectedReport?.label" (click)="toggleReportMenu()"></word-flipper>
+      <span class="report-btn" (click)="toggleReportMenu()">More reports</span>
+   </div>
+   <div class="right">
+      <app-dropdown [items]="periodDropdownValues" [selectedId]="selectedPeriodId"
+                    (itemSelected)="periodChanged($event)"></app-dropdown>
+   </div>
+</div>
+<div class="content">
+   <router-outlet #outlet="outlet"></router-outlet>
+</div>
+

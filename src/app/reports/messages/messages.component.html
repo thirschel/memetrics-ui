@@ -1,0 +1,35 @@
+<div class="report-stats">
+   <div class="quick-stats" [@quickStatTransition] *ngIf="quickStats.length">
+      <div class="stat total" *ngFor="let stat of quickStats" [ngClass]="stat.statClass">
+         <div class="label">{{stat.label}}</div>
+         <div class="value">
+            <number-counter [value]="stat.value" [numberType]="stat.numberType"></number-counter>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="chart-data container">
+   <div class="chart">
+      <h3 class="title">Messages by day of the week</h3>
+      <div class="subtitle"></div>
+      <app-stacked-bar-chart [config]="dayOfWeekConfig"></app-stacked-bar-chart>
+   </div>
+   <div class="chart">
+      <h3 class="title">Messages by day hour of the day</h3>
+      <div class="subtitle">Frequency of incoming and outgoing messages at every hour
+         of the day across each day of the week</div>
+      <app-heat-map-chart [config]="heatMapData"></app-heat-map-chart>
+   </div>
+   <div class="chart">
+      <h3 class="title">Messages by week</h3>
+      <div class="subtitle">Sum of  all incoming and outgoing messages in a week</div>
+      <app-multi-line-chart [config]="weekOverWeekConfig"></app-multi-line-chart>
+   </div>
+   <div class="chart">
+      <h3 class="title">Messages over period</h3>
+      <div class="subtitle">Sum of  all incoming and outgoing messages over the entire period</div>
+      <app-multi-line-chart [config]="periodPerformanceConfig"></app-multi-line-chart>
+   </div>
+</div>
+
+

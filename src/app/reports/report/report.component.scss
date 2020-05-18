@@ -1,0 +1,76 @@
+@import '../../shared/variables';
+
+:host {
+   .report-selector{
+      display: flex;
+      background: #FFFFFF;
+      overflow: hidden;
+      .report{
+         flex: 1;
+         text-align: center;
+         color: #aec7e8;
+         padding: 14px 0;
+         font-weight: 600;
+         font-size: 20px;
+         cursor: pointer;
+         transition: .3s color ease-in-out;
+         &:hover{
+            color: #5391bb;
+         }
+         &.selected{
+            color: $primary-blue;
+            &:hover{
+               color: $primary-blue;
+            }
+         }
+      }
+   }
+   .header {
+      display: flex;
+      align-items: center;
+      padding: 20px 20px 50px 20px;
+      color: #FFF;
+      background: $primary-blue;
+      .left {
+         width: 50%;
+         .back-btn {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            cursor: pointer;
+            .back-icon {
+               display: inline-block;
+               border-right: 4px solid #FFF;
+               border-bottom: 4px solid #FFF;
+               width: 10px;
+               height: 10px;
+               transform: rotate(-225deg);
+            }
+            span{
+               margin-left: 6px;
+            }
+         }
+         h1{
+            margin:0;
+            display: inline-block;
+         }
+         word-flipper{
+            cursor: pointer;
+         }
+         .report-btn{
+            cursor: pointer;
+            color: #f1f1f1;
+            @media(max-width: 550px) {
+               margin-left:0;
+               display: block;
+            }
+         }
+      }
+      .right {
+         width: 50%;
+         justify-content: flex-end;
+         display: flex;
+         margin-top: 28px;
+      }
+   }
+}

@@ -1,0 +1,168 @@
+@import 'app/shared/theme/bootstrap';
+
+$border-color: #e7ebf3;
+$text-color: #444;
+body, html {
+   font-family: 'Larsseit', serif;
+   font-weight: 500;
+   overflow-x: hidden;
+   background: #f5f6fa;
+   line-height: 1.6;
+   font-size: 16px;
+   color: #444;
+   margin: 0;
+   padding: 0;
+   width:100%;
+   height:100%;
+}
+
+.line {
+   fill: none;
+   stroke-width: 2px;
+   &.previous{
+      stroke-dasharray: 2;
+   }
+}
+
+.y-grid{
+   .domain{
+      display: none;
+   }
+   line{
+      stroke: #b9b9b9;
+      stroke-dasharray: 1;
+   }
+}
+
+.bar-value{
+   transition: opacity 0.2s;
+}
+.tooltip-active{
+   opacity:.5;
+}
+.active-bar{
+   opacity:1;
+}
+.bar-chart-tooltip, .heatmap-tooltip{
+   position: absolute;
+   background: #FFF;
+   padding: 30px 20px;
+   transition: opacity 0.15s cubic-bezier(0.65, 0.05, 0.36, 1);
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+   .x-value{
+      margin-bottom: 1em;
+      color: #585858;
+   }
+   .y-value {
+
+      display: flex;
+      align-items:center;
+      opacity:.5;
+      transition: opacity .2s;
+      &.active{
+         opacity:1;
+      }
+      .color-block {
+         width: 10px;
+         display: block;
+         height: 10px;
+         margin-right: 5px;
+      }
+      .label{
+         margin-right:1em;
+      }
+      .value{
+         font-weight:600;
+      }
+   }
+}
+
+.overlay {
+   fill: none;
+   pointer-events: all;
+}
+
+.focus circle {
+   fill: none;
+   stroke: steelblue;
+}
+
+rect.bordered {
+   stroke: #E6E6E6;
+   stroke-width:2px;
+}
+
+text.mono {
+   font-size: 9pt;
+   fill: #aaa;
+}
+
+text.axis-workweek {
+   fill: #000;
+}
+
+text.axis-worktime {
+   fill: #000;
+}
+
+@font-face {
+   font-family: 'Larsseit';
+   src: url('/assets/fonts/Larsseit-Thin.eot');
+   src: url('/assets/fonts/Larsseit-Thin.eot?#iefix') format('embedded-opentype'), url('/assets/fonts/Larsseit-Thin.woff2') format('woff2'), url('/assets/fonts/Larsseit-Thin.woff') format('woff');
+   font-weight: 300;
+   font-style: normal;
+   font-stretch: normal;
+}
+
+@font-face {
+   font-family: 'Larsseit';
+   src: url('/assets/fonts/Larsseit-Light.eot');
+   src: url('/assets/fonts/Larsseit-Light.eot?#iefix') format('embedded-opentype'), url('/assets/fonts/Larsseit-Light.woff2') format('woff2'), url('/assets/fonts/Larsseit-Light.woff') format('woff');
+   font-weight: 400;
+   font-style: normal;
+   font-stretch: normal;
+}
+
+@font-face {
+   font-family: 'Larsseit';
+   src: url('./assets/fonts/Larsseit.eot');
+   src: url('./assets/fonts/Larsseit.eot?#iefix') format('embedded-opentype'), url('./assets/fonts/Larsseit.woff2') format('woff2'), url('./assets/fonts/Larsseit.woff') format('woff');
+   font-weight: 500;
+   font-style: normal;
+   font-stretch: normal;
+}
+
+@font-face {
+   font-family: 'Larsseit-Medium';
+   src: url('/assets/fonts/Larsseit-Medium.eot');
+   src: url('/assets/fonts/Larsseit-Medium.eot?#iefix') format('embedded-opentype'), url('/assets/fonts/Larsseit-Medium.woff2') format('woff2'), url('/assets/fonts/Larsseit-Medium.woff') format('woff');
+   font-weight: 600;
+   font-style: normal;
+   font-stretch: normal;
+}
+
+@font-face {
+   font-family: 'Larsseit';
+   src: url('/assets/fonts/Larsseit-Bold.eot');
+   src: url('/assets/fonts/Larsseit-Bold.eot?#iefix') format('embedded-opentype'), url('/assets/fonts/Larsseit-Bold.woff2') format('woff2'), url('/assets/fonts/Larsseit-Bold.woff') format('woff');
+   font-weight: 700;
+   font-style: normal;
+   font-stretch: normal;
+}
+
+@font-face {
+   font-family: 'Larsseit';
+   src: url('/assets/fonts/Larsseit-Extrabold.eot');
+   src: url('/assets/fonts/Larsseit-Extrabold.eot?#iefix') format('embedded-opentype'), url('/assets/fonts/Larsseit-Extrabold.woff2') format('woff2'), url('/assets/fonts/Larsseit-Extrabold.woff') format('woff');
+   font-weight: 800;
+   font-style: normal;
+   font-stretch: normal;
+}
+
+@font-face {
+   font-family: 'MeMetrics';
+   src: url('/assets/fonts/Memetrics-Regular.woff2');
+   font-weight: 500;
+   font-style: normal;
+   font-stretch: normal;
+}

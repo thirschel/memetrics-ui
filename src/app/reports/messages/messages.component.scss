@@ -1,0 +1,90 @@
+@import '../../shared/common-report';
+
+.top-3{
+   display: flex;
+   justify-content: center;
+   &.animation{
+      .one{
+         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+         margin-top:0!important;
+      }
+      .two{
+         margin-right:-20px!important;
+         margin-top:5px!important;
+      }
+      .three{
+         margin-left:-20px!important;
+         margin-top:5px!important;
+
+      }
+      .top-user{
+         opacity:1;
+      }
+   }
+   .top-user{
+      width: 200px;
+      height: 350px;
+      text-align: center;
+      background: #FFF;
+      transition: .65s ease-in-out;
+      transform-origin: bottom;
+      opacity:0;
+
+      &.one{
+         border-radius: 3px;
+         border-right: 1px solid  #feff00;
+         border-bottom: 1px solid #ffea5f;
+         border-left: 1px solid #ffd700;
+         margin-top:30px;
+         z-index: 1;
+         .header{
+            background: #ffd700;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #ffd700, #feff00);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #ffd700, #feff00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+         }
+      }
+      &.two{
+         border-radius: 3px;
+         border-right: 1px solid #bdc3c7;
+         border-bottom: 1px solid #727e8a;
+         border-left: 1px solid #2c3e50;
+         margin-right:-202px;
+         margin-top:30px;
+         .header{
+            background: #bdc3c7;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+         }
+      }
+      &.three{
+         border-radius: 3px;
+         border-right: 1px solid  #D1913C;
+         border-bottom: 1px solid #ffbd6c;
+         border-left: 1px solid #FFD194;
+         margin-left:-202px;
+         margin-top:30px;
+         .header{
+            background: #D1913C;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #FFD194, #D1913C);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #FFD194, #D1913C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+         }
+      }
+      .header{
+         width:100%;
+         height:3px;
+      }
+      .stats{
+         margin-top:200px;
+         .description{
+            color: #b9b6b6;
+            margin:0;
+            font-size:12px;
+         }
+         .message-count,.message-percentage{
+            font-size:16px;
+            font-weight:bold;
+            margin:0;
+         }
+      }
+   }
+}

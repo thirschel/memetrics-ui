@@ -1,0 +1,45 @@
+:host {
+   position: relative;
+   display: block;
+   width: 450px;
+   height: 32px;
+   .text {
+      height: 100%;
+      p {
+         display: inline-block;
+         vertical-align: top;
+         margin: 0;
+         .word {
+            user-select:none;
+            position: absolute;
+            width: 220px;
+            opacity: 1;
+            &.to {
+               opacity: 0;
+            }
+
+            .letter {
+               user-select:none;
+               display: inline-block;
+               position: relative;
+               font-weight: 700;
+               font-size: 32px;
+               line-height: 28px;
+               transform: translateZ(25px);
+               transform-origin: 50% 50% 25px;
+            }
+         }
+         &.on {
+            .from {
+               .letter {
+                  transform: rotateX(90deg);
+               }
+            }
+            .to {
+               opacity: 1;
+               transform: rotateX(0deg);
+            }
+         }
+      }
+   }
+}
