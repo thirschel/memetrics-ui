@@ -96,7 +96,7 @@ stages:
     - name: apiUrl
       value: 'https://memetrics-dev-api.azurewebsites.net'
     - name: appInsightsInstrumentationKey
-      value: 'ee7d0555-ec8a-4d67-ac13-ff2f6a1d99b6'
+      value: $(AppInsightsInstrumentationKey)
   jobs:
     - deployment: deploy
       displayName: Deploy

@@ -29,8 +29,6 @@ we use the git commit messages to **generate the change log**.
 
 ### Commit Message Format
 
-![commit-messages](conventional-git.png)
-
 ```code
 <type>(<scope>): <subject>
 <BLANK LINE>
