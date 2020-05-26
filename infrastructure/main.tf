@@ -32,7 +32,6 @@ resource "azurerm_cdn_endpoint" "cdn_endpoint" {
   profile_name        = azurerm_cdn_profile.cdn_profile.name
   location            = var.infrastructure_resource_group_location
   resource_group_name = var.infrastructure_resource_group_name
-  is_http_allowed     = false
 
   origin {
     name      = "${local.name}-storage-account"
@@ -42,5 +41,19 @@ resource "azurerm_cdn_endpoint" "cdn_endpoint" {
   }
 
   origin_host_header = "${azurerm_storage_account.storage_account.name}.z13.web.core.windows.net"
+
+  delivery_rule {
+      name = "HttpsRedirect"
+      order = 1
+      request_scheme_condition {
+          match_values = ["HTTP"]
+          operator = "Equal"
+      }
+      url_redirect_action {
+          redirect_type = "Found"
+          protocol = "Https"
+      }
+  }
+  
   tags               = var.tags
 }
