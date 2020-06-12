@@ -1,98 +1,35 @@
-# Contributing to MeMetrics UI
+<h1 align="center">A digitial-life viewing application</h1>
 
-As a contributor, here are the guidelines we would like you to follow:
+<h3 align="center">
+  <a href="https://memetrics.net/">Visit MeMetrics</a>
+</h3>
 
-- [Coding Rules](#coding-rules)
-- [Commit Message Guidelines](#commit-message-guidelines)
+<h3 align="center">
+  <a href="https://github.com/thirschel/memetrics-ui/blob/master/ARCHITECTURE.md">Architecture Diagram</a> |
+  <a href="https://github.com/thirschel/memetrics-infrastructure">Infrastructure</a> |
+  <a href="https://github.com/thirschel/memetrics-api">API</a> | 
+  <a href="https://github.com/thirschel/memetrics-functions">Functions</a> |
+  <a href="https://github.com/thirschel/memetrics-imessage-updater">iMessage Updater</a>
+</h3>
 
-### Static Branches
+![Image of Dashboard](dashboard.png)
 
-The following are a list of branches that always exist and have special rules in regard to pushing to them:
+## What is MeMetrics?
+[I work as a software engineer](https://www.tylerhirschel.com) and this is a pet project I have built in my spare time. I realized that many of the services that I use have some ability to gather the data they store on me. I wanted to take this data and display it in a way that would provide an aggregated view to view trends that may occur. This project encompasses how I would build an application using modern techstack and built for scale. I have also tried to not incldue a technology or service unless it is needed or provides real value to the project. I have made the entire source code public to view and scrutinze.
 
-- **staging** - Represents the current stage build and also where all code will be promoted from. This is the Default branch in the project.
+## What is this?
 
-  > If you are coming from GitFlow, think of this as the `Develop` branch.
+This project contains the Angular application that acts as the UI for MeMetrics. It is responsible for transforming the data from the API into beautiful and concise graphs and visualizations.
 
-- **master** - Represents what is currently on production. You should **not** need to merge into this branch directly. Only new Releases merge into this branch.
+## Setting up development environment 🛠
 
-## Coding Rules
-
-To ensure consistency throughout the source code, keep these rules in mind as you are working:
-
-- We follow [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
-
-## Commit Message Guidelines
-
-We have very precise rules over how our git commit messages can be formatted. This leads to **more
-readable messages** that are easy to follow when looking through the **project history**. But also,
-we use the git commit messages to **generate the change log**.
-
-### Commit Message Format
-
-```code
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
+_If you need to change the endpoint of the api, it can be found in `src/assets/appsettings.json`_
+```sh
+npm install
+npm start
 ```
 
-```text
-docs(changelog): update changelog to beta.5
-```
 
-```text
-fix(release): need to depend on latest rxjs and zone.js
+## Contributing 🤝
 
-The version in our package.json gets copied to the one we publish, and users need the latest of these.
-```
-
-### Revert
-
-If the commit reverts a previous commit, it should begin with `revert:`, followed by the header of the reverted commit. In the body it should say: `This reverts commit <hash>.`, where the hash is the SHA of the commit being reverted.
-
-### Type
-
-Must be one of the following:
-
-- **build**: Changes that affect the build system or external dependencies
-- **ci**: Changes to our CI configuration files and scripts
-- **docs**: Documentation only changes
-- **feat**: A new feature
-- **fix**: A bug fix
-- **perf**: A code change that improves performance
-- **refactor**: A code change that neither fixes a bug nor adds a feature
-- **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-- **test**: Adding missing tests or correcting existing tests
-
-### Scope
-
-The scope should be the name of the area of work affected (as perceived by the person reading the changelog generated from commit messages.
-
-There are currently a few exceptions to the "use area of work" rule:
-
-- **changelog**: used for updating the release notes in CHANGELOG.md
-
-- none/empty string: useful for `style`, `test` and `refactor` changes that are done across all
-  packages (e.g. `style: add missing semicolons`) and for docs changes that are not related to a
-  specific package (e.g. `docs: fix typo in tutorial`).
-
-### Subject
-
-The subject contains a succinct description of the change:
-
-- use the imperative, present tense: "change" not "changed" nor "changes"
-- don't capitalize the first letter
-- no dot (.) at the end
-
-### Body
-
-Just as in the **subject**, use the imperative, present tense: "change" not "changed" nor "changes".
-The body should include the motivation for the change and contrast this with previous behavior.
-
-### Footer
-
-The footer should contain any information about **Breaking Changes** and is also the place to
-reference GitHub issues that this commit **Closes**.
-
-**Breaking Changes** should start with the word `BREAKING CHANGE:` with a space or two newlines. The rest of the commit message is then used for this.
+I will not be accepting PR's for this project.
