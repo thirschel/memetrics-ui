@@ -131,6 +131,31 @@ stages:
               inputs:
                 terraformVersion: $(terraform_version)
 
+            # https://github.com/MicrosoftDocs/azure-docs/issues/38914
+            # Azure Devops is not a trusted Microsoft service and the agents in Azure Devops pool change their IPs weekly
+            # This firewall entry is removed at the end of the deployment
+            - task: PowerShell@2
+              name: GetClientIP
+              displayName: Get Agent IP address
+              inputs:
+                targetType: 'inline'
+                script: |
+                  $response = Invoke-RestMethod -Uri 'https://api.ipify.org/'
+                  Write-Host $response
+                  # ##vso setvariable is required to set the value of ipAddr variable. 
+                  # $ip_address = $response only works local to the task! ** setvariable must be used to pass the variable down the pipeline.**
+                  Write-Host "##vso[task.setvariable variable=ip_address]$response"
+                  $ip_address = $response
+                  Write-Host ip_address is: $ip_address
+
+            - task: AzureCLI@1
+              name: AddFirewallRule
+              displayName: Add Firewall Rule to Azure Key Vault
+              inputs:
+                azureSubscription: 'Visual Studio Enterprise'
+                scriptLocation: 'inlineScript'
+                inlineScript: 'az keyvault network-rule add --resource-group $(resource_group_name) --name $(key_vault_name) --ip-address $(ip_address)'
+
             - task: AzureKeyVault@1
               displayName: 'download keyvault secrets'
               inputs:
@@ -200,5 +225,13 @@ stages:
                 inlineScript: |
                   az cdn endpoint purge -n $1 -g $2 --profile-name $3 --content-paths '/*'
                 arguments: $(cdn_endpoint_name) $(resource_group_name) $(cdn_name)
+
+            - task: AzureCLI@1
+              name: RemoveFirewallRule
+              displayName: Remove Firewall Rule from Azure Key Vault
+              inputs:
+                azureSubscription: 'Visual Studio Enterprise'
+                scriptLocation: 'inlineScript'
+                inlineScript: 'az keyvault network-rule remove --resource-group $(resource_group_name) --name $(key_vault_name) --ip-address $(ip_address)/32'
 
 
