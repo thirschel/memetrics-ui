@@ -4,7 +4,9 @@ import { PeriodSelectionEnum } from '../enums/PeriodSelectionEnum';
 import { Subscription } from 'rxjs/index';
 import { ActivatedRoute } from '@angular/router';
 import { HeatMapConfig } from '../shared/heat-map-chart/heat-map';
+import { Directive } from "@angular/core";
 
+@Directive()
 export class BaseReport {
 
    public selectedPeriod: PeriodSelectionEnum;
