@@ -33,7 +33,7 @@ export class AxisHelper {
    }
 
    createAxis(p1, p2, color) {
-      const geom = new THREE.Geometry();
+      const geom = new THREE.BoxGeometry();
       const mat = new THREE.LineBasicMaterial({
          color: color,
          opacity: this.opacity,
